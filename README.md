@@ -13,6 +13,8 @@ Our target audience for this data would broadly be anyone that is a Spotify stak
 
 Using the Spotify API, an artist can see which countries have a track available. For example, a song might be available in Mexico but not in Germany. Another question that can be learned using the API is the popularity of a song on a scale of 0-100. An artist might be interested in which of their many songs is most popular (popular based off mostly of number of playbacks) and use that information to make future songs more popular. A third question that can be answered with the API seeing which songs are most popular in different countries. For example, the United States and Canada are neighbors, but their music tastes might vary a lot. For an aspiring artist, they might be interested in the most popular tracks for a given country in order to tune their music to that country and get more listeners.
 
+***Questions We Can Answer***
+
 #### Technical Description
 *Change words here*
 
