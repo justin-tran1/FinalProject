@@ -19,9 +19,9 @@ Due to the recent emerging trend of digital analytics and business intelligence,
 #### Potential Questions Our Data Will Answer
 
 These are just some of the questions our data will answer -:
-Q1 - “How popular is this particular track?”
-Q2 - “Which countries is this track available in?”
-Q3 - “Which countries enjoy my tracks, and which tracks specifically do each of the countries enjoy?”
+##### Q1 - “How popular is this particular track?”
+##### Q2 - “Which countries is this track available in?”
+##### Q3 - “Which countries enjoy my tracks, and which tracks specifically do each of the countries enjoy?”
 
 Using the Spotify API, an artist can see which countries a specific track is available in. For example, a song might be available in Mexico but not in Germany. Another question that can be answered by our data is the popularity of a song on a scale of 0-100. An artist might be interested in which of their many songs is most popular (popular based off mostly of number of playbacks) and use that information to make future songs more popular. A third question that can be answered with the API seeing which songs are most popular in different countries. For example, the United States and Canada are neighbors, but their music tastes might vary a lot. For an aspiring artist, they might be interested in the most popular tracks for a given country in order to tune their music to that country and get more listeners.
 
