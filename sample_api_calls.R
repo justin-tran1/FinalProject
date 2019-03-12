@@ -1,6 +1,7 @@
 library(knitr)
 library(dplyr)
 library(ggplot2)
+library(ggjoy)
 library(lintr)
 library(styler)
 library(leaflet)
@@ -10,6 +11,16 @@ library(devtools)
 library(httr)
 library(spotifyr)
 library(ggjoy)
+library(httr)
+library(leaflet)
+library(ggmap)
+library(tibble)
+library(DataCombine)
+library(tidyverse)
+
+
+
+
 
 source("api-keys.R")
 
@@ -31,26 +42,59 @@ access_token <- get_spotify_access_token()
 #get_artist_audio_features is a built in function of the SpotifyR library 
 
 
-test_pull <- get_artist_audio_features('Chris Cornell',"HK")
+test_pull <- get_artist_audio_features('Soundgarden')
                                        
 
-                                      
-
-
-test_pull %>% 
+sg_valence <- test_pull %>% 
   arrange(-valence) %>% 
   select(track_name, valence) %>% 
-  head(20)
+  head(5) %>% 
+  kable()
 
 
 #You need to install the ggjoy package for the visualization below to work. 
 
-ggplot(test_pull, aes(x = valence, y = song)) + 
+ggplot(sg_valence, aes(x = valence, y = album_name)) + 
   geom_joy() + 
   theme_joy() +
   ggtitle("Joyplot of Soundgarden's joy distributions", 
           subtitle = "Based on valence pulled from 
           Spotify's Web API with spotifyr")
+
+
+
+
+ggplot(sg_valence, aes(x = valence, y = album_name)) + 
+  geom_joy() + 
+  theme_joy() +
+  ggtitle("Joyplot of Soundgarden's joy distributions", 
+          subtitle = "Based on valence pulled from 
+          Spotify's Web API with spotifyr")
+
+
+
+
+
+
+
+test_pull %>% 
+  arrange(-valence) %>% 
+  select(track_name, valence) %>% 
+  head(5) %>% 
+  kable()
+
+
+ggplot(test_pull, aes(x = valence, y = album_name)) + 
+  geom_joy() + 
+  theme_joy() +
+  ggtitle("Joyplot of Joy Division's joy distributions", 
+          subtitle = "Based on valence pulled from Spotify's Web API with spotifyr")
+
+
+
+
+
+
 
 
 
@@ -87,7 +131,8 @@ my_headers<-httr::add_headers(c(Authorization=paste('Basic',id_secret,sep=' ')))
 
 my_body<-list(grant_type='client_credentials')
 
-my_token<-httr::content(httr::POST('https://accounts.spotify.com/api/token',my_headers,body=my_body,encode='form'))
+my_token<-httr::content(httr::POST('https://accounts.spotify.com/api/token',
+                                   my_headers,body=my_body,encode='form'))
 
 
 auth_header<-httr::add_headers('Authorization'=paste('Bearer',my_token$access_token))
@@ -103,6 +148,9 @@ sg_track <- httr::content(httr::GET(paste('https://api.spotify.com/v1/audio-feat
 sg_band <- httr::content(httr::GET(paste('https://api.spotify.com/v1/artists/',
                                     sg,sep=''),auth_header))
 
+
+
+
 https://api.spotify.com/v1/artists/{id}/related-artists
 
 
@@ -111,5 +159,33 @@ sg_related <- httr::content(httr::GET(paste0('https://api.spotify.com/v1/artists
 
 
 sg_related <- httr::content(httr::GET(paste('https://api.spotify.com/v1/artists/related-artists',
-                                            sg, sep=''),auth_header))
+                                    sg, sep=''),auth_header))
+
+
+body <- fromJSON(content(sg_band, "text"))
+
+
+
+radiohead <- get_artists("Radiohead")
+
+
+
+
+
+joy <- get_artist_audio_features('joy division')
+
+joy %>% 
+  arrange(-valence) %>% 
+  select(track_name, valence) %>% 
+  head(5) %>% 
+  kable()
+
+
+ggplot(joy, aes(x = valence, y = album_name)) + 
+  geom_joy() + 
+  theme_joy() +
+  ggtitle("Joyplot of Joy Division's joy distributions", 
+          subtitle = "Based on valence pulled from Spotify's Web API with spotifyr")
+
+
 

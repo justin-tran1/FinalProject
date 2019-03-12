@@ -11,6 +11,8 @@ library(httr)
 library(spotifyr) 
 library(ggjoy)
 
+
+
 #Install the spotifyr library here: devtools::install_github('charlie86/spotifyr')
 #using the devtools command ensures you get the most up to date version. 
 
@@ -93,7 +95,9 @@ artist_data <- "/v1/artists/"  #easy to build with paste0, but the others get tr
 
 top_tracks <- "/top-tracks"
 
-country_data <- "?country=SE" #requires country parameter with two letter code
+country_data <- "?country=SE" 
+
+#requires country parameter with two letter code
 #using "from_token" will just pull from the country the access token was 
 #generated in. 
 
@@ -115,15 +119,28 @@ pull_top_tracks <- httr::content(httr::GET(paste0(endpoint,artist_data,
 #sample pull 
 
 
-pull_top_tracks <- httr::content(httr::GET(paste0(endpoint,spotify_search,
-                        artist,search_type,search_country,sep=''),auth_header))
-
-
 spotify_search <- "/v1/search?q="
 artist <- "Wu+Tang+Clan"
 search_type <- "&type=track"
 search_country <- "&market=US"
 
 
+
+pull_top_tracks <- httr::content(httr::GET(paste0(endpoint,spotify_search,
+                  artist,search_type,search_country,sep=''),auth_header))
+
+
+
+
+
+body <- fromJSON(content(member_info, "text"))
+
+
+wu_tang <- fromJSON(content(pull_top_tracks, "text"))
+
+body <- content(band_info, "text")
+parsed_data <- fromJSON(body)
+
+body <- content(band_info, "text")
 
 
