@@ -176,3 +176,9 @@ historical_track_data <- InsertRow(historical_track_data, track_features, RowNum
 
 #once the files are processed, write the final data frame to a .csv file 
 
+
+write.csv(historical_track_data, "global_averages.csv")
+
+
+
+
