@@ -20,17 +20,21 @@ access_token <- get_spotify_access_token()
 
 server <- function(input, output) {
   artist_use <- reactive({
-    get_artist_audio_features(input$artistname) 
+    get_artist_audio_features(input$artistname)
   })
-
+  
+  
+    
   output$chart <- renderPlot({
-    ggplot(artist_use(), aes(x = valence, y = album_name, fill = album_name)) +
+    ggplot(
+      artist_use(),
+      aes_string(x = input$outputname, y = artist_use()$album_name, fill = artist_use()$album_name)) +
       geom_joy() +
-      theme_joy() +
+      theme_light() +
       labs(x = input$artistname, y = "Album name") + 
       ggtitle(
         paste(
-          "Joyplot of", input$artistname, "joy distributions"
+          "Joyplot of", input$artistname, "Joy Distributions"
           ),
         "Based on valence data pulled from Spotify's Web API with spotifyr"
       )
