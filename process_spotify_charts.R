@@ -288,8 +288,8 @@ read_data_country <- function(filename, filedate, country )     {
 #for this function the user passes the file path and the file date they want
 #to use for the average of each musical element. E.g. Valence and Energy 
 
-track_features_country <- read_data_country("spotify_charts/Japan/regional-jp-weekly-2018-12-21--2018-12-28.csv", 
-                            "2018-12-28", "Japan")
+track_features_country <- read_data_country("spotify_charts/Great Britain/regional-gb-weekly-2018-12-21--2018-12-28.csv", 
+                            "2018-12-28", "GreatBritain")
 
 
 
@@ -315,7 +315,7 @@ historical_track_data_country <- InsertRow(historical_track_data_country,
 
 #delete the extra row the above creates 
 
-historical_track_data_country <- historical_track_data_country[-c(5:11), ]
+historical_track_data_country <- historical_track_data_country[-c(2), ]
 
 
 #use this function after the first row insert 
@@ -331,12 +331,12 @@ historical_track_data_country <- InsertRow(historical_track_data_country,
 write_country <- function(country, df) {
 
 
-write.csv(df, paste0(country, "_data", ".csv"))
+write.csv(df, paste0("data_averages/", country, "_data", ".csv"))
 
   
   
 }
 
 
-write_country("japan",historical_track_data_country)
+write_country("GreatBritain",historical_track_data_country)
 
