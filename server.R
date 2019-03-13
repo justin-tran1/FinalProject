@@ -17,10 +17,16 @@ Sys.setenv(SPOTIFY_CLIENT_ID = "dff090c9a456431a98b5eef00145e487")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "924d43f14b574ee2bf2b6fbce9d021f9")
 access_token <- get_spotify_access_token()
 
+country <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
 
 server <- function(input, output) {
   artist_use <- reactive({
     get_artist_audio_features(input$artistname)
+  })
+  
+  good <- reactive({
+    country %>%
+      select(date, input$optionname)
   })
   
   
@@ -28,7 +34,7 @@ server <- function(input, output) {
   output$chart <- renderPlot({
     ggplot(
       artist_use(),
-      aes_string(x = input$outputname, y = artist_use()$album_name, fill = artist_use()$album_name)) +
+      aes(x = valence, y = album_name, fill = album_name)) +
       geom_joy() +
       theme_light() +
       labs(x = input$artistname, y = "Album name") + 
@@ -38,5 +44,21 @@ server <- function(input, output) {
           ),
         "Based on valence data pulled from Spotify's Web API with spotifyr"
       )
+  })
+  
+  output$chart2 <- renderPlotly({
+    test <- ggplot(
+      country,
+      aes(x = date, y = avg_valence)) +
+      geom_point() +
+      theme_light() +
+      labs(x = "Date", y = avg_valence) + 
+      ggtitle(
+        paste(
+          "Misc"
+        ),
+        "Based on data pulled from Spotify's Web API"
+      )
+  ggplotly(test)
   })
 }

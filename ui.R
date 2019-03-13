@@ -19,15 +19,10 @@ library(shiny)
 Sys.setenv(SPOTIFY_CLIENT_ID = "dff090c9a456431a98b5eef00145e487")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "924d43f14b574ee2bf2b6fbce9d021f9")
 access_token <- get_spotify_access_token()
-options <- c("danceability", 
-             "energy", 
-             "key", 
-             "loudness", 
-             "speechiness",
-             "acousticness",
-             "liveliness",
-             "valence",
-             "tempo")
+
+country <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
+
+
 
 ui <- navbarPage(
   "Spotify INFO 201",
@@ -94,11 +89,6 @@ ui <- navbarPage(
           "Enter the name of an artist",
           "Beatles"
         ),
-        selectInput(
-          "optionname",
-          "Select an option to see",
-          options
-        ),
         p(
           "The average 'valence' of all the songs in an album.
           Valence is defined by Spotify as the musical positiveness conveyed
@@ -121,8 +111,17 @@ ui <- navbarPage(
   tabPanel(
     "Visualisation Two",
     sidebarLayout(
-      sidebarPanel(),
-      mainPanel()
+      sidebarPanel(
+        selectInput(
+          "optionname",
+          "Select an option to see",
+          colnames(country),
+          "avg_valence"
+        )
+      ),
+      mainPanel(
+        plotlyOutput("chart2")
+      )
     )
   )
 )
