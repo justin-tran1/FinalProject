@@ -325,6 +325,8 @@ historical_track_data_country <- InsertRow(historical_track_data_country,
                                            track_features_country, RowNum = 2)
 
 
+historical_track_data_country <- historical_track_data_country_x
+
 
 #once the files are processed, write the final data frame to a .csv file 
 
