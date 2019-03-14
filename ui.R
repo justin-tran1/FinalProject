@@ -21,6 +21,11 @@ Sys.setenv(SPOTIFY_CLIENT_ID = "dff090c9a456431a98b5eef00145e487")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "924d43f14b574ee2bf2b6fbce9d021f9")
 access_token <- get_spotify_access_token()
 
+america <- read.csv("data_averages/America_data.csv", stringsAsFactors = F)
+japan <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
+britain <- read.csv("data_averages/GreatBritain_data.csv", stringsAsFactors = F)
+
+
 ui <- navbarPage(theme = 'bootstrap.css', #inspired by third-party UI design website https://bootswatch.com/ to integrate CSS elements into app.
   "Feelings, Emotions and Music", #Bootstrap themes are released under the MIT License and maintained by the community on GitHub.
   tabPanel(
@@ -123,9 +128,17 @@ With this knowledge, An artist can now create music that has a higher change of 
   tabPanel(
     "Visualisation Two",
     sidebarLayout(
-      sidebarPanel(),
+      sidebarPanel(
+        selectInput(
+          "countryname",
+          "Choose a country",
+          list("Japan", "America", "Britain")
+        )
+      ),
       mainPanel(
-        
+        plotlyOutput("chart2"),
+        plotlyOutput("chart3"),
+        plotlyOutput("chart5")
       )
     )
   )

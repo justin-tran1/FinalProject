@@ -38,44 +38,13 @@ server <- function(input, output) {
     }
   })
 
-
-  variable <- reactive({
-    if (input$varname == "Average Danceability") {
-      avg_danceability
-    }
-    else if (input$varname == "Average Energy") {
-      avg_energy
-    }
-    else if (input$varname == "Average Loudness") {
-      avg_loudness
-    }
-    else if (input$varname == "Average Speechiness") {
-      avg_speechiness
-    }
-    else if (input$varname == "Average Acousticness") {
-      avg_acoustisness
-    }
-    else if (input$varname == "Average Instrumentalness") {
-      avg_instrumentalnes
-    }
-    else if (input$varname == "Average Liveliness") {
-      avg_liveness
-    }
-    else if (input$varname == "Average Valence") {
-      avg_valence
-    }
-    else if (input$varname == "Average Tempo") {
-      avg_tempo
-    }
-  })
-
   output$chart <- renderPlot({
     ggplot(
       artist_use(),
       aes(x = valence, y = album_name, fill = album_name)
     ) +
       geom_joy() +
-      theme_light() +
+      theme_dark() +
       labs(x = input$artistname, y = "Album Name") +
       ggtitle(
         paste(
@@ -88,12 +57,12 @@ server <- function(input, output) {
   output$chart2 <- renderPlotly({
     test <- ggplot(
       good(),
-      aes(x = date, y = avg_valence, color = avg_valence)
+      aes(x = date, y = avg_valence, color = -avg_valence)
     ) +
       geom_point() +
-      geom_line() +
-      theme_light() +
-      labs(x = "Date", y = "Average Valence") +
+      geom_smooth() +
+      theme_grey() +
+      labs(x = "Date", y = "Average Valence", color = "Valence (0.0 - 1.0)") +
       ggtitle(
         paste(
           input$countryname, "Average Valence over time"
@@ -106,12 +75,13 @@ server <- function(input, output) {
   output$chart3 <- renderPlotly({
     test_3 <- ggplot(
       good(),
-      aes(x = date, y = avg_tempo, color = avg_tempo)
+      aes(x = date, y = avg_tempo, color = -avg_tempo)
     ) +
       geom_point() +
       geom_line() +
-      theme_light() +
-      labs(x = "Date", y = "Average Tempo") +
+      theme_grey() +
+      #theme(legend.position="none") +
+      labs(x = "Date", y = "Average Tempo", color = "Tempo (BPM)") +
       ggtitle(
         paste(
           input$countryname, "Average Tempo over time"
@@ -119,5 +89,22 @@ server <- function(input, output) {
         "Based on data pulled from Spotify's Web API"
       )
     ggplotly(test_3)
+  })
+  output$chart5 <- renderPlotly({
+    test_4 <- ggplot(
+      good(),
+      aes(x = date, y = avg_danceability, color = -avg_danceability)
+    ) +
+      geom_point() +
+      geom_smooth() +
+      theme_grey() +
+      labs(x = "Date", y = "Average Danceability", color = "Danceability (0.0 - 1.0)") +
+      ggtitle(
+        paste(
+          input$countryname, "Average Danceability over time"
+        ),
+        "Based on data pulled from Spotify's Web API"
+      )
+    ggplotly(test_4)
   })
 }
