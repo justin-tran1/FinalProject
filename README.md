@@ -76,6 +76,8 @@ Prior to services like Spotify music markets tended to be regional, in that only
 * data_wrangling.R, this script was used to validate that the data frames with the 16 month range of data was correct, and to fix any errors contained within them. In the script each of the .csv files for data for the Global, American, Brazilian, British and Japanese charts were reviewed, analyzed, validated and fixed as needed. 
 
 * ui.R and server.R are the files that build and run the shiny app, and display the visualizations. 
-
+ 
 * Files in the Github repository beyond the above were used to prototype API connections, plots and the shiny app. 
 
+
+[Link To Shiny App](https://dataspiner.shinyapps.io/FinalProject/)
