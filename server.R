@@ -55,7 +55,7 @@ server <- function(input, output) {
       aes(x = valence, y = album_name, fill = album_name)
     ) +
       geom_joy() +
-      theme_dark() +
+      theme_dark(base_size = 8) +
       labs(x = input$artistname, y = "Album Name") +
       ggtitle(
         paste(
@@ -72,7 +72,7 @@ server <- function(input, output) {
     ) +
       geom_point() +
       geom_smooth() +
-      theme_grey() +
+      theme_grey(base_size = 8) +
       labs(x = "Date", y = "Average Valence", color = "Valence (0.0 - 1.0)") +
       ggtitle(
         paste(
@@ -90,7 +90,7 @@ server <- function(input, output) {
     ) +
       geom_point() +
       geom_line() +
-      theme_grey() +
+      theme_grey(base_size = 8) +
       #theme(legend.position="none") +
       labs(x = "Date", y = "Average Tempo", color = "Tempo (BPM)") +
       ggtitle(
@@ -108,7 +108,7 @@ server <- function(input, output) {
     ) +
       geom_point() +
       geom_smooth() +
-      theme_grey() +
+      theme_grey(base_size = 8) +
       labs(x = "Date", y = "Average Danceability", color = "Danceability (0.0 - 1.0)") +
       ggtitle(
         paste(

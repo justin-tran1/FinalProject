@@ -157,7 +157,7 @@ With this knowledge, An artist can now create music that has a higher change of 
       sidebarPanel(
         selectInput(
           "countryname",
-          "Choose a location",
+          h3("Choose a location"),
           list("Japan", "America", "Britain", "Brazil", "Global")
         )
       ),
@@ -177,18 +177,17 @@ With this knowledge, An artist can now create music that has a higher change of 
    # create sidebar layout for the widgets
    
    sidebarLayout(
-     
-     
      # Side panel for controls
      
      sidebarPanel(
+       
        
        # Creates the drop down menu for the x variables
        
        # Creates the drop down menu for the Y variable
        selectInput(
          "x_music_variables",
-         label = "Select Music Features",
+         label = h3("Select Music Features"),
          choices = x_choices,
          selected = "avg_valence"
        )
@@ -201,10 +200,12 @@ With this knowledge, An artist can now create music that has a higher change of 
        
        h3("These density plots compare the distribution of the average values
            of the selected musical element, for the Spotify top 25 charts from 
-           September 2017 through December 2018. The values were calculated by 
+          September 2017 through December 2018. The values were calculated by 
            taking the top 25 songs at the end of each month from the Spotify
            charts web site, and then running them through the Spotify API
-           to get the musical features ranging from tempo, to valence and energy")
+           to get the musical features ranging from tempo, to valence and energy."),
+       p('These density plots are a visual depiction of the average selected values of valence, danceability, tempo, etc., over the time period spanning September 2017 through December 2018 on a global and regional basis (**Brazil, Great Britain, Japan and The United States**). The data comes from the Spotify top 25 chart for the last week of the month for each region. Averages are used to treat each chart as a snapshot of musical tastes, the emotions elicited by the music and the musical elements that are most resonating with people. The global and regional comparisons are used to determine if there are any major differences between country or the global and country level charts. For example: the density plot for valence, a measure of the positive or negative emotions stimulated by a song, shows that the Brazilian charts were dominated by positive music (clustered around 0.7), whereas The American charts were dominated by sadder songs, as they were clustered around 0.43.')
+       
        
      )
    )
