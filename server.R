@@ -25,21 +25,20 @@ server <- function(input, output) {
   artist_use <- reactive({
     get_artist_audio_features(input$artistname)
   })
-  
+
   good <- reactive({
-    if (input$countryname == "america") {
+    if (input$countryname == "America") {
       america
     }
-    else if (input$countryname == "japan") {
+    else if (input$countryname == "Japan") {
       japan
     }
-    else if (input$countryname == "britain") {
+    else if (input$countryname == "Britain") {
       britain
     }
   })
-  
 
-  
+
   variable <- reactive({
     if (input$varname == "Average Danceability") {
       avg_danceability
@@ -69,39 +68,56 @@ server <- function(input, output) {
       avg_tempo
     }
   })
-  
-  
-  
-    
+
   output$chart <- renderPlot({
     ggplot(
       artist_use(),
-      aes(x = valence, y = album_name, fill = album_name)) +
+      aes(x = valence, y = album_name, fill = album_name)
+    ) +
       geom_joy() +
       theme_light() +
-      labs(x = input$artistname, y = "Album Name") + 
+      labs(x = input$artistname, y = "Album Name") +
       ggtitle(
         paste(
           "Joyplot of", input$artistname, "Valence Distributions"
-          ),
+        ),
         "Based on valence data pulled from Spotify's Web API with spotifyr"
       )
   })
-  
+
   output$chart2 <- renderPlotly({
     test <- ggplot(
       good(),
-      aes(x = date, y = avg_valence, color = avg_valence)) +
+      aes(x = date, y = avg_valence, color = avg_valence)
+    ) +
       geom_point() +
       geom_line() +
       theme_light() +
-      labs(x = "Date", y = "country$avg_valencee") + 
+      labs(x = "Date", y = "Average Valence") +
       ggtitle(
         paste(
-          "Misc"
+          input$countryname, "Average Valence over time"
         ),
         "Based on data pulled from Spotify's Web API"
       )
-  ggplotly(test)
+    ggplotly(test)
+  })
+  
+  output$chart3 <- renderPlotly({
+    test_3 <- ggplot(
+      good(),
+      aes(x = date, y = avg_tempo, color = avg_tempo)
+    ) +
+      geom_point() +
+      geom_line() +
+      theme_light() +
+      labs(x = "Date", y = "Average Tempo") +
+      ggtitle(
+        paste(
+          input$countryname, "Average Tempo over time"
+        ),
+        "Based on data pulled from Spotify's Web API"
+      )
+    ggplotly(test_3)
   })
 }
