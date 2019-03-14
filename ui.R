@@ -24,12 +24,30 @@ access_token <- get_spotify_access_token()
 america <- read.csv("data_averages/updated_files/usa_data(revised).csv", stringsAsFactors = F)
 japan <- read.csv("data_averages/updated_files/japan_averages(revised).csv", stringsAsFactors = F)
 britain <- read.csv("data_averages/updated_files/uk_averages(revised).csv", stringsAsFactors = F)
+brazil <- read.csv("data_averages/updated_files/brazil_averages(revised).csv", stringsAsFactors = F)
+global <- read.csv("data_averages/updated_files/global_data(revised).csv", stringsAsFactors = F)
+
+
+japan_data <- read.csv("data_averages/updated_files/japan_averages(revised).csv", 
+                       stringsAsFactors = FALSE)
+
+usa_data <- read.csv("data_averages/updated_files/usa_data(revised).csv", 
+                     stringsAsFactors = FALSE)
+
+brazil_data <- read.csv("data_averages/updated_files/brazil_averages(revised).csv", 
+                        stringsAsFactors = FALSE)
+
+uk_data <- read.csv("data_averages/updated_files/uk_averages(revised).csv", 
+                    stringsAsFactors = FALSE)
+
+global_data <- read.csv("data_averages/updated_files/global_data(revised).csv", 
+                        stringsAsFactors = FALSE)
+
+x_choices <- colnames(global_data[2:10])
 
 
 ui <- navbarPage(theme = 'bootstrap.css', #inspired by third-party UI design website https://bootswatch.com/ to integrate CSS elements into app.
   "Feelings, Emotions and Music", #Bootstrap themes are released under the MIT License and maintained by the community on GitHub.
-  
-
   
   
   tabPanel(
@@ -139,17 +157,58 @@ With this knowledge, An artist can now create music that has a higher change of 
       sidebarPanel(
         selectInput(
           "countryname",
-          "Choose a country",
-          list("Japan", "America", "Britain")
+          "Choose a location",
+          list("Japan", "America", "Britain", "Brazil", "Global")
         )
       ),
       mainPanel(
         plotlyOutput("chart2"),
         plotlyOutput("chart3"),
-        plotlyOutput("chart5")
+        plotlyOutput("chart4")
       )
     )
-  )
+  ),
+ tabPanel(
+   "Musical Features of The Top 25",
+   
+   
+   titlePanel("Comparing Top 25 Charts"),
+   
+   # create sidebar layout for the widgets
+   
+   sidebarLayout(
+     
+     
+     # Side panel for controls
+     
+     sidebarPanel(
+       
+       # Creates the drop down menu for the x variables
+       
+       # Creates the drop down menu for the Y variable
+       selectInput(
+         "x_music_variables",
+         label = "Select Music Features",
+         choices = x_choices,
+         selected = "avg_valence"
+       )
+     ),
+     
+     mainPanel(
+       
+       # Function that will generate the plot in the shiny app
+       plotOutput("music_density"),
+       
+       h3("These density plots compare the distribution of the average values
+           of the selected musical element, for the Spotify top 25 charts from 
+           September 2017 through December 2018. The values were calculated by 
+           taking the top 25 songs at the end of each month from the Spotify
+           charts web site, and then running them through the Spotify API
+           to get the musical features ranging from tempo, to valence and energy")
+       
+     )
+   )
+ )
 )
 
 

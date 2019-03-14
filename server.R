@@ -22,6 +22,9 @@ source("ui.R")
 america <- read.csv("data_averages/updated_files/usa_data(revised).csv", stringsAsFactors = F)
 japan <- read.csv("data_averages/updated_files/japan_averages(revised).csv", stringsAsFactors = F)
 britain <- read.csv("data_averages/updated_files/uk_averages(revised).csv", stringsAsFactors = F)
+global <- read.csv("data_averages/updated_files/global_data(revised).csv", stringsAsFactors = F)
+brazil <- read.csv("data_averages/updated_files/brazil_averages(revised).csv", stringsAsFactors = F)
+
 
 server <- function(input, output) {
   artist_use <- reactive({
@@ -37,6 +40,12 @@ server <- function(input, output) {
     }
     else if (input$countryname == "Britain") {
       britain
+    }
+    else if (input$countryname == "Brazil") {
+      brazil
+    }
+    else if (input$countryname == "Global") {
+      global
     }
   })
 
@@ -92,7 +101,7 @@ server <- function(input, output) {
       )
     ggplotly(test_3)
   })
-  output$chart5 <- renderPlotly({
+  output$chart4 <- renderPlotly({
     test_4 <- ggplot(
       good(),
       aes(x = date, y = avg_danceability, color = -avg_danceability)
@@ -109,4 +118,35 @@ server <- function(input, output) {
       )
     ggplotly(test_4)
   })
+  
+  output$music_density <- renderPlot({
+    
+    x_global <- global_data[[input$x_music_variables]]
+    x_brazil <- brazil_data[[input$x_music_variables]]
+    x_japan <- japan_data[[input$x_music_variables]]
+    x_uk <- uk_data[[input$x_music_variables]]
+    x_us <- usa_data[[input$x_music_variables]]
+    
+    
+    
+    # Using ggplot to generate a density plot
+    
+    
+    
+    music_density_plot <- ggplot(data = global_data, aes(x = x_global, color = "Global"), 
+                                 fill = "x_global")+
+      geom_density(alpha = 0.2) + 
+      geom_density(data = brazil_data, aes(x = x_brazil, color = "Brazil"))+
+      geom_density(data = japan_data, aes(x = x_japan, color = "Japan"))+
+      geom_density(data = uk_data,  aes(x = x_uk, color = "United Kingom"))+
+      geom_density(data = usa_data, aes(x = x_us, color = "United States"))+
+      labs(title="Density distributions of various music features",
+           x="September 2017 - December 2018", y = "Density")+
+      scale_colour_manual("Legend", values = c("Black", "Red", "Blue", "Dark Green", "Purple"))
+    
+    return(music_density_plot)
+    
+    
+  })
+  
 }
