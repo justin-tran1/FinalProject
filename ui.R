@@ -21,6 +21,20 @@ Sys.setenv(SPOTIFY_CLIENT_ID = "dff090c9a456431a98b5eef00145e487")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "924d43f14b574ee2bf2b6fbce9d021f9")
 access_token <- get_spotify_access_token()
 
+america <- read.csv("data_averages/America_data.csv", stringsAsFactors = F)
+japan <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
+britain <- read.csv("data_averages/GreatBritain_data.csv", stringsAsFactors = F)
+
+choices <- list("Average Danceability",
+                "Average Energy",
+                "Average Loudness",
+                "Average Speechiness",
+                "Average Acousticness",
+                "Average Instrumentalness",
+                "Average Liveliness",
+                "Average Valence",
+                "Average Tempo")
+
 ui <- navbarPage(
   "Feelings, Emotions and Music",
   tabPanel(
@@ -112,15 +126,28 @@ With this knowledge, An artist can now create music that has a higher change of 
         )
       ),
       mainPanel(
-        (plotOutput("chart"))
+        plotOutput("chart")
       )
     )
   ),
   tabPanel(
     "Visualisation Two",
     sidebarLayout(
-      sidebarPanel(),
-      mainPanel()
+      sidebarPanel(
+        selectInput(
+          "countryname",
+          "Choose a country",
+          list("japan", "america", "britain")
+        ),
+        selectInput(
+          "varname",
+          "Choose a statistic",
+          choices
+        )
+      ),
+      mainPanel(
+        plotlyOutput("chart2")
+      )
     )
   )
 )

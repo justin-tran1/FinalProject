@@ -17,7 +17,9 @@ Sys.setenv(SPOTIFY_CLIENT_ID = "dff090c9a456431a98b5eef00145e487")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "924d43f14b574ee2bf2b6fbce9d021f9")
 access_token <- get_spotify_access_token()
 
-country <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
+america <- read.csv("data_averages/America_data.csv", stringsAsFactors = F)
+japan <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
+britain <- read.csv("data_averages/GreatBritain_data.csv", stringsAsFactors = F)
 
 server <- function(input, output) {
   artist_use <- reactive({
@@ -25,9 +27,49 @@ server <- function(input, output) {
   })
   
   good <- reactive({
-    country %>%
-      select(date, input$optionname)
+    if (input$countryname == "america") {
+      america
+    }
+    else if (input$countryname == "japan") {
+      japan
+    }
+    else if (input$countryname == "britain") {
+      britain
+    }
   })
+  
+
+  
+  variable <- reactive({
+    if (input$varname == "Average Danceability") {
+      avg_danceability
+    }
+    else if (input$varname == "Average Energy") {
+      avg_energy
+    }
+    else if (input$varname == "Average Loudness") {
+      avg_loudness
+    }
+    else if (input$varname == "Average Speechiness") {
+      avg_speechiness
+    }
+    else if (input$varname == "Average Acousticness") {
+      avg_acoustisness
+    }
+    else if (input$varname == "Average Instrumentalness") {
+      avg_instrumentalnes
+    }
+    else if (input$varname == "Average Liveliness") {
+      avg_liveness
+    }
+    else if (input$varname == "Average Valence") {
+      avg_valence
+    }
+    else if (input$varname == "Average Tempo") {
+      avg_tempo
+    }
+  })
+  
   
   
     
@@ -37,10 +79,10 @@ server <- function(input, output) {
       aes(x = valence, y = album_name, fill = album_name)) +
       geom_joy() +
       theme_light() +
-      labs(x = input$artistname, y = "Album name") + 
+      labs(x = input$artistname, y = "Album Name") + 
       ggtitle(
         paste(
-          "Joyplot of", input$artistname, "Joy Distributions"
+          "Joyplot of", input$artistname, "Valence Distributions"
           ),
         "Based on valence data pulled from Spotify's Web API with spotifyr"
       )
@@ -48,11 +90,12 @@ server <- function(input, output) {
   
   output$chart2 <- renderPlotly({
     test <- ggplot(
-      country,
-      aes(x = date, y = avg_valence)) +
+      good(),
+      aes(x = date, y = avg_valence, color = avg_valence)) +
       geom_point() +
+      geom_line() +
       theme_light() +
-      labs(x = "Date", y = avg_valence) + 
+      labs(x = "Date", y = "country$avg_valencee") + 
       ggtitle(
         paste(
           "Misc"
