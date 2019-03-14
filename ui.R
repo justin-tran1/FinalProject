@@ -21,13 +21,17 @@ Sys.setenv(SPOTIFY_CLIENT_ID = "dff090c9a456431a98b5eef00145e487")
 Sys.setenv(SPOTIFY_CLIENT_SECRET = "924d43f14b574ee2bf2b6fbce9d021f9")
 access_token <- get_spotify_access_token()
 
-america <- read.csv("data_averages/America_data.csv", stringsAsFactors = F)
-japan <- read.csv("data_averages/japan_data.csv", stringsAsFactors = F)
-britain <- read.csv("data_averages/GreatBritain_data.csv", stringsAsFactors = F)
+america <- read.csv("data_averages/updated_files/usa_data(revised).csv", stringsAsFactors = F)
+japan <- read.csv("data_averages/updated_files/japan_averages(revised).csv", stringsAsFactors = F)
+britain <- read.csv("data_averages/updated_files/uk_averages(revised).csv", stringsAsFactors = F)
 
 
 ui <- navbarPage(theme = 'bootstrap.css', #inspired by third-party UI design website https://bootswatch.com/ to integrate CSS elements into app.
   "Feelings, Emotions and Music", #Bootstrap themes are released under the MIT License and maintained by the community on GitHub.
+  
+
+  
+  
   tabPanel(
     img(
       "", 
@@ -96,7 +100,7 @@ With this knowledge, An artist can now create music that has a higher change of 
       sidebarPanel(
         h2("Choose An Artist"),
         textInput(
-          "artistname",
+          "artistname", 
           h3("Enter The Name Of An Artist"),
           "Beatles"
         ),
@@ -116,6 +120,10 @@ With this knowledge, An artist can now create music that has a higher change of 
         )
       ),
       mainPanel(
+        tags$style(type="text/css",
+                   ".shiny-output-error { visibility: hidden; }",
+                   ".shiny-output-error:before { visibility: hidden; }"),
+
         (plotOutput("chart")),
        h3('Fun Fact #1'),
        h3('Fun Fact #2'),
